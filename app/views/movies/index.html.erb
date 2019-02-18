@@ -15,7 +15,7 @@
   </thead>
 
   <tbody>
-    <% @movies.each do |movie| %>
+    <% @movie.each do |movie| %>
       <tr>
         <td><%= movie.title %></td>
         <td><%= movie.description %></td>
@@ -31,5 +31,7 @@
 </table>
 
 <br>
+
+
 
 <%= link_to 'New Movie', new_movie_path %>

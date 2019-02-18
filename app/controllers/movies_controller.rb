@@ -4,7 +4,7 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.json
   def index
-    @movies = current_user.movies.build
+    @movie = Movie.all.order("created_at DESC")
     
   end
 
@@ -15,7 +15,7 @@ class MoviesController < ApplicationController
 
   # GET /movies/new
   def new
-    @movie = current_user.movies.build(movie_params)
+    @movie = current_user.movies.build
   end
 
   # GET /movies/1/edit
@@ -25,7 +25,7 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.json
   def create
-    @movie = Movie.new(movie_params)
+    @movie = current_user.movies.build(movie_params)
 
     respond_to do |format|
       if @movie.save
