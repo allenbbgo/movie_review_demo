@@ -30,14 +30,12 @@ class ReviewsController < ApplicationController
     @review.movie_id = @movie.id
 
 
-    respond_to do |format|
       if @review.save
 
         redirect_to @movie
       else
         render :new
       end
-    end
   end
 
   # PATCH/PUT /reviews/1
