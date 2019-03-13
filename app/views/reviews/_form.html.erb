@@ -12,8 +12,10 @@
   <% end %>
 
   <div class="field">
+    
+   <div id="rating-form">
     <%= form.label :rating %>
-    <%= form.number_field :rating %>
+  </div>
   </div>
 
   <div class="field">
@@ -25,3 +27,17 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+<script>
+  $('#star-rating').raty({
+    path: '/assets/',
+    scoreName: 'review[rating]'
+  });
+</script>
+
+<script>
+    $('#rating-form').raty({
+      path: '/assets/',
+      scoreName: 'review[rating]'
+    });
+  </script>

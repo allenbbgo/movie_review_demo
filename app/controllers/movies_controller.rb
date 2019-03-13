@@ -12,6 +12,17 @@ class MoviesController < ApplicationController
   # GET /movies/1.json
   def show
     @reviews = Review.where(movie_id: @movie.id).order("created_at DESC")
+
+    if @reviews.blank? 
+      @avg_review = 0
+    
+    else
+    
+      @avg_review = @reviews.average(:rating).round(2)
+      
+    end
+    
+
   end
 
   # GET /movies/new
@@ -61,6 +72,15 @@ class MoviesController < ApplicationController
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+
+  def review_d
+    @review = Review.find(params[:id])
+    @review.delete
+    redirect_back(fallback_location: root_path)
+    flash[:notice] ='Comment was successfully destroyed.'
+
   end
 
   private

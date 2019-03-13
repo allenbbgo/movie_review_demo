@@ -41,25 +41,21 @@ class ReviewsController < ApplicationController
   # PATCH/PUT /reviews/1
   # PATCH/PUT /reviews/1.json
   def update
-    respond_to do |format|
       if @review.update(review_params)
-        format.html { redirect_to @review, notice: 'Review was successfully updated.' }
-        format.json { render :show, status: :ok, location: @review }
+        redirect_to @movie
       else
-        format.html { render :edit }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
+        render :new
     end
   end
 
   # DELETE /reviews/1
   # DELETE /reviews/1.json
   def destroy
-    @review.destroy
-    respond_to do |format|
-      format.html { redirect_to reviews_url, notice: 'Review was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    @review = Review.find(params[:id])
+    @movie.destroy
+    redirect_back(fallback_location: root_path)
+    flash[:notice] ='Comment was successfully destroyed.'
+
   end
 
   private

@@ -3,6 +3,8 @@
     <div class="row">
       <div class="col-md-4">
         <%= image_tag @movie.image.url(:medium) %> 
+        <div class="star-rating" data-score= <%= @avg_review %> ></div>
+        <em><%= "#{@reviews.length} reviews" %></em>          
         <div class="table-responsive">
           <table class="table">
             <tbody>
@@ -41,10 +43,14 @@
       <% else %>
         <% @reviews.each do |review| %>
           <div class="reviews">
-            <p><%= review.rating %></p>
-            <p><%= review.comment %></p>
-          </div>
-        <% end %>
+            <div class="review-rating" data-score="<%= review.rating %>" </div>
+          </div>            
+          <br>
+          <p><%= review.comment %></p>
+          <%= link_to 'Edit', edit_movie_review_path(@movie,review) %> 
+          <%= link_to 'delete', review_d_movie_path(review) ,method: :delete, data: {confirm:'are you sure'},class:"btn btn-primary" %>    
+          
+         <% end %>
       <% end %>
     </div>
     </div>
@@ -52,3 +58,25 @@
 </div>
 <%= link_to 'Edit', edit_movie_path(@movie) %> |
 <%= link_to 'Back', movies_path %>
+<%= link_to 'delete', movie_path(@movie) ,method: :delete, data: {confirm:'are you sure'},class:"btn btn-primary" %>    
+
+
+<script>
+    $('.review-rating').raty({
+      path: '/assets/',
+      readOnly: true,
+      score: function() {
+            return $(this).attr('data-score');
+    }
+  });
+</script>
+
+<script>
+    $('.star-rating').raty({
+      path: '/assets/',
+      readOnly: true,
+      score: function() {
+            return $(this).attr('data-score');
+    }
+  });
+</script>

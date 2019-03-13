@@ -66,3 +66,8 @@ gem 'devise', '~> 4.2'
 gem 'paperclip', '~> 5.1'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'jquery-rails'    
+
+gem 'ratyrate'
+gem 'raty_ratings'
+
+gem 'activerecord-reset-pk-sequence'
