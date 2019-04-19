@@ -52,7 +52,7 @@ class ReviewsController < ApplicationController
   # DELETE /reviews/1.json
   def destroy
     @review = Review.find(params[:id])
-    @movie.destroy
+    @review.destroy
     redirect_back(fallback_location: root_path)
     flash[:notice] ='Comment was successfully destroyed.'
 

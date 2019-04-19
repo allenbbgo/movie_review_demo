@@ -1,11 +1,32 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
+  #before_action :force_json, only: :search
+  
+  
   # GET /movies
   # GET /movies.json
   def index
-    @movie = Movie.all.order("created_at DESC")
+    # @movie = Movie.all.order("created_at DESC")
     
+    search = params[:term].present? ? params[:term] : nil
+    @movie = if search
+      Movie.where("title LIKE ?", "%#{search}%")
+      # Movie.search(search)
+    else
+      Movie.all.order("created_at DESC")
+    end
+
+    respond_to do |format|
+      format.html
+      {
+      }
+      format.json {
+        @movie = @movie.limit(1)
+        #@directors = @directors.limit(5)
+      }
+    end
+
   end
 
   # GET /movies/1
@@ -24,6 +45,47 @@ class MoviesController < ApplicationController
     
 
   end
+
+  def autocomplete
+    render json: Movie.search(params[:query], {
+      fields: ["title^5"],
+      match: :word_start,
+      limit: 10,
+      load: false,
+      misspellings: {below: 5}
+    }).map(&:title)
+
+  end
+
+
+  def search
+
+    # search=  params[:search].present? ? params[:term] : nil
+    #   @movies = if search
+    #   # @movies = Movie.search(params[:search])
+    #   Movie.search(search)
+    # else
+    #   # @movies = Movie.all
+    #   Movie.all
+    # end
+
+    @movies_auto   = Movie.ransack(title_cont: params[:q]).result(distinct: true)
+            # @directors =Movie.ransack(name_cont: params[:q]).result(distinct: true).limit(5)
+    #render json: {movies: [], directors: []}
+
+
+    respond_to do |format|
+      format.html
+      {
+      }
+      format.json {
+        @movies_auto = @movies_auto.limit(2)
+        #@directors = @directors.limit(5)
+      }
+    end
+  end
+
+
 
   # GET /movies/new
   def new
@@ -93,4 +155,12 @@ class MoviesController < ApplicationController
     def movie_params
       params.require(:movie).permit(:title, :description, :movie_length, :director, :rating ,:image)
     end
+
+
+    def force_json
+      request.format = :json
+    end
+
+
+
 end

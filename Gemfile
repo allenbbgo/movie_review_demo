@@ -68,6 +68,14 @@ gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'jquery-rails'    
 
 gem 'ratyrate'
-gem 'raty_ratings'
+#gem 'raty_ratings'
+
+gem 'searchkick'
+
+gem 'rails-assets-typeahead.js', source: 'https://rails-assets.org'
+
+gem 'ransack', github: 'activerecord-hackery/ransack'
+gem 'twitter-typeahead-rails', '~> 0.11.1'
+
 
 gem 'activerecord-reset-pk-sequence'

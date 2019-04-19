@@ -14,7 +14,26 @@
 //= require bootstrap-sprockets
 //= require activestorage
 //= require jquery
+
 //= require bootstrap-sprockets
 //= require jquery.raty
+//= require ratyrate
+
+//= require typeahead.js.js
 //= require turbolinks
+//= require jquery.easy-autocomplete
 //= require_tree .
+
+$(document).on('turbolinks:load', function(){
+    var movies = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: {
+        url: '/movies/autocomplete?query=%QUERY',
+        wildcard: '%QUERY'
+      }
+    });
+    $('#movies_search').typeahead(null, {
+      source: movies
+    });
+  })
